@@ -18,6 +18,8 @@
 		05F325FF17282BF100B7D8B2 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 05F325FE17282BF100B7D8B2 /* Default-568h@2x.png */; };
 		05F3260217282BF100B7D8B2 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 05F3260017282BF100B7D8B2 /* MainStoryboard.storyboard */; };
 		05F3260517282BF100B7D8B2 /* SonoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05F3260417282BF100B7D8B2 /* SonoViewController.m */; };
+		05F3260D17282C6600B7D8B2 /* SonoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 05F3260C17282C6600B7D8B2 /* SonoModel.m */; };
+		05F3261117282F6E00B7D8B2 /* AverageBuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = 05F3261017282F6E00B7D8B2 /* AverageBuffer.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +39,10 @@
 		05F3260117282BF100B7D8B2 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		05F3260317282BF100B7D8B2 /* SonoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SonoViewController.h; sourceTree = "<group>"; };
 		05F3260417282BF100B7D8B2 /* SonoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SonoViewController.m; sourceTree = "<group>"; };
+		05F3260B17282C6600B7D8B2 /* SonoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SonoModel.h; sourceTree = "<group>"; };
+		05F3260C17282C6600B7D8B2 /* SonoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SonoModel.m; sourceTree = "<group>"; };
+		05F3260F17282F5300B7D8B2 /* AverageBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AverageBuffer.h; sourceTree = "<group>"; };
+		05F3261017282F6E00B7D8B2 /* AverageBuffer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = AverageBuffer.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,12 +89,15 @@
 		05F325EE17282BF100B7D8B2 /* SonoPhone */ = {
 			isa = PBXGroup;
 			children = (
+				05F3260E17282F2700B7D8B2 /* Auxiliary Classes */,
 				05F325F717282BF100B7D8B2 /* SonoAppDelegate.h */,
 				05F325F817282BF100B7D8B2 /* SonoAppDelegate.m */,
 				05F3260017282BF100B7D8B2 /* MainStoryboard.storyboard */,
 				05F3260317282BF100B7D8B2 /* SonoViewController.h */,
 				05F3260417282BF100B7D8B2 /* SonoViewController.m */,
 				05F325EF17282BF100B7D8B2 /* Supporting Files */,
+				05F3260B17282C6600B7D8B2 /* SonoModel.h */,
+				05F3260C17282C6600B7D8B2 /* SonoModel.m */,
 			);
 			path = SonoPhone;
 			sourceTree = "<group>";
@@ -105,6 +114,15 @@
 				05F325FE17282BF100B7D8B2 /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		05F3260E17282F2700B7D8B2 /* Auxiliary Classes */ = {
+			isa = PBXGroup;
+			children = (
+				05F3260F17282F5300B7D8B2 /* AverageBuffer.h */,
+				05F3261017282F6E00B7D8B2 /* AverageBuffer.c */,
+			);
+			name = "Auxiliary Classes";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -177,6 +195,8 @@
 				05F325F517282BF100B7D8B2 /* main.m in Sources */,
 				05F325F917282BF100B7D8B2 /* SonoAppDelegate.m in Sources */,
 				05F3260517282BF100B7D8B2 /* SonoViewController.m in Sources */,
+				05F3260D17282C6600B7D8B2 /* SonoModel.m in Sources */,
+				05F3261117282F6E00B7D8B2 /* AverageBuffer.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
