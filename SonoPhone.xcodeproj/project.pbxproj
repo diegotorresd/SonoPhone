@@ -1,0 +1,306 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		05F325E917282BF100B7D8B2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05F325E817282BF100B7D8B2 /* UIKit.framework */; };
+		05F325EB17282BF100B7D8B2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05F325EA17282BF100B7D8B2 /* Foundation.framework */; };
+		05F325ED17282BF100B7D8B2 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05F325EC17282BF100B7D8B2 /* CoreGraphics.framework */; };
+		05F325F317282BF100B7D8B2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 05F325F117282BF100B7D8B2 /* InfoPlist.strings */; };
+		05F325F517282BF100B7D8B2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 05F325F417282BF100B7D8B2 /* main.m */; };
+		05F325F917282BF100B7D8B2 /* SonoAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 05F325F817282BF100B7D8B2 /* SonoAppDelegate.m */; };
+		05F325FB17282BF100B7D8B2 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 05F325FA17282BF100B7D8B2 /* Default.png */; };
+		05F325FD17282BF100B7D8B2 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 05F325FC17282BF100B7D8B2 /* Default@2x.png */; };
+		05F325FF17282BF100B7D8B2 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 05F325FE17282BF100B7D8B2 /* Default-568h@2x.png */; };
+		05F3260217282BF100B7D8B2 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 05F3260017282BF100B7D8B2 /* MainStoryboard.storyboard */; };
+		05F3260517282BF100B7D8B2 /* SonoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05F3260417282BF100B7D8B2 /* SonoViewController.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		05F325E517282BF100B7D8B2 /* SonoPhone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SonoPhone.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		05F325E817282BF100B7D8B2 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		05F325EA17282BF100B7D8B2 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		05F325EC17282BF100B7D8B2 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		05F325F017282BF100B7D8B2 /* SonoPhone-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SonoPhone-Info.plist"; sourceTree = "<group>"; };
+		05F325F217282BF100B7D8B2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		05F325F417282BF100B7D8B2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		05F325F617282BF100B7D8B2 /* SonoPhone-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SonoPhone-Prefix.pch"; sourceTree = "<group>"; };
+		05F325F717282BF100B7D8B2 /* SonoAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SonoAppDelegate.h; sourceTree = "<group>"; };
+		05F325F817282BF100B7D8B2 /* SonoAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SonoAppDelegate.m; sourceTree = "<group>"; };
+		05F325FA17282BF100B7D8B2 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		05F325FC17282BF100B7D8B2 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		05F325FE17282BF100B7D8B2 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		05F3260117282BF100B7D8B2 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
+		05F3260317282BF100B7D8B2 /* SonoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SonoViewController.h; sourceTree = "<group>"; };
+		05F3260417282BF100B7D8B2 /* SonoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SonoViewController.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		05F325E217282BF100B7D8B2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				05F325E917282BF100B7D8B2 /* UIKit.framework in Frameworks */,
+				05F325EB17282BF100B7D8B2 /* Foundation.framework in Frameworks */,
+				05F325ED17282BF100B7D8B2 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		05F325DC17282BF100B7D8B2 = {
+			isa = PBXGroup;
+			children = (
+				05F325EE17282BF100B7D8B2 /* SonoPhone */,
+				05F325E717282BF100B7D8B2 /* Frameworks */,
+				05F325E617282BF100B7D8B2 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		05F325E617282BF100B7D8B2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				05F325E517282BF100B7D8B2 /* SonoPhone.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		05F325E717282BF100B7D8B2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				05F325E817282BF100B7D8B2 /* UIKit.framework */,
+				05F325EA17282BF100B7D8B2 /* Foundation.framework */,
+				05F325EC17282BF100B7D8B2 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		05F325EE17282BF100B7D8B2 /* SonoPhone */ = {
+			isa = PBXGroup;
+			children = (
+				05F325F717282BF100B7D8B2 /* SonoAppDelegate.h */,
+				05F325F817282BF100B7D8B2 /* SonoAppDelegate.m */,
+				05F3260017282BF100B7D8B2 /* MainStoryboard.storyboard */,
+				05F3260317282BF100B7D8B2 /* SonoViewController.h */,
+				05F3260417282BF100B7D8B2 /* SonoViewController.m */,
+				05F325EF17282BF100B7D8B2 /* Supporting Files */,
+			);
+			path = SonoPhone;
+			sourceTree = "<group>";
+		};
+		05F325EF17282BF100B7D8B2 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				05F325F017282BF100B7D8B2 /* SonoPhone-Info.plist */,
+				05F325F117282BF100B7D8B2 /* InfoPlist.strings */,
+				05F325F417282BF100B7D8B2 /* main.m */,
+				05F325F617282BF100B7D8B2 /* SonoPhone-Prefix.pch */,
+				05F325FA17282BF100B7D8B2 /* Default.png */,
+				05F325FC17282BF100B7D8B2 /* Default@2x.png */,
+				05F325FE17282BF100B7D8B2 /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		05F325E417282BF100B7D8B2 /* SonoPhone */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 05F3260817282BF100B7D8B2 /* Build configuration list for PBXNativeTarget "SonoPhone" */;
+			buildPhases = (
+				05F325E117282BF100B7D8B2 /* Sources */,
+				05F325E217282BF100B7D8B2 /* Frameworks */,
+				05F325E317282BF100B7D8B2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SonoPhone;
+			productName = SonoPhone;
+			productReference = 05F325E517282BF100B7D8B2 /* SonoPhone.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		05F325DD17282BF100B7D8B2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = Sono;
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = "Diego Torres";
+			};
+			buildConfigurationList = 05F325E017282BF100B7D8B2 /* Build configuration list for PBXProject "SonoPhone" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 05F325DC17282BF100B7D8B2;
+			productRefGroup = 05F325E617282BF100B7D8B2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				05F325E417282BF100B7D8B2 /* SonoPhone */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		05F325E317282BF100B7D8B2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				05F325F317282BF100B7D8B2 /* InfoPlist.strings in Resources */,
+				05F325FB17282BF100B7D8B2 /* Default.png in Resources */,
+				05F325FD17282BF100B7D8B2 /* Default@2x.png in Resources */,
+				05F325FF17282BF100B7D8B2 /* Default-568h@2x.png in Resources */,
+				05F3260217282BF100B7D8B2 /* MainStoryboard.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		05F325E117282BF100B7D8B2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				05F325F517282BF100B7D8B2 /* main.m in Sources */,
+				05F325F917282BF100B7D8B2 /* SonoAppDelegate.m in Sources */,
+				05F3260517282BF100B7D8B2 /* SonoViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		05F325F117282BF100B7D8B2 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				05F325F217282BF100B7D8B2 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		05F3260017282BF100B7D8B2 /* MainStoryboard.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				05F3260117282BF100B7D8B2 /* en */,
+			);
+			name = MainStoryboard.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		05F3260617282BF100B7D8B2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		05F3260717282BF100B7D8B2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		05F3260917282BF100B7D8B2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SonoPhone/SonoPhone-Prefix.pch";
+				INFOPLIST_FILE = "SonoPhone/SonoPhone-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		05F3260A17282BF100B7D8B2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SonoPhone/SonoPhone-Prefix.pch";
+				INFOPLIST_FILE = "SonoPhone/SonoPhone-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		05F325E017282BF100B7D8B2 /* Build configuration list for PBXProject "SonoPhone" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				05F3260617282BF100B7D8B2 /* Debug */,
+				05F3260717282BF100B7D8B2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		05F3260817282BF100B7D8B2 /* Build configuration list for PBXNativeTarget "SonoPhone" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				05F3260917282BF100B7D8B2 /* Debug */,
+				05F3260A17282BF100B7D8B2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 05F325DD17282BF100B7D8B2 /* Project object */;
+}
