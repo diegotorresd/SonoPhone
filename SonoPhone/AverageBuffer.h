@@ -21,4 +21,6 @@ void avgBufInit(AverageBuffer * buf, int size);
 
 void avgBufWrite(AverageBuffer * buf, float * newElem);
 
+void avgBufRelease(AverageBuffer * buf);
+
 #endif

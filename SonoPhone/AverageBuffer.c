@@ -23,6 +23,7 @@ void avgBufInit(AverageBuffer * buf, int size)
 void avgBufWrite(AverageBuffer * buf, float * newElem)
 {
     buf->avgElems[buf->end] = *newElem;
+    buf->totalAvg = calculateAverage(buf);
     buf->end = (buf->end + 1) % buf->size;
 }
 
@@ -35,4 +36,9 @@ float calculateAverage(AverageBuffer * buf)
         sum += buf->avgElems[i];
     }
     return sum / buf->size;
+}
+
+void avgBufRelease(AverageBuffer * buf)
+{
+    free(buf->avgElems);
 }

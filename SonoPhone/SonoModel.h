@@ -12,6 +12,7 @@
 #import <AudioToolbox/AudioQueue.h>
 #import <AudioToolbox/AudioSession.h>
 #import <Accelerate/Accelerate.h>
+#import "SonoMeasurement.h"
 
 #define Sono_NumberOfBuffers 3
 #define Sono_BufferLengthSeconds 0.25
@@ -22,6 +23,7 @@
 
 // STATE
 @property (nonatomic, readonly) BOOL isRunning;
+@property (nonatomic, readonly) BOOL isMeasuring;
 
 // DATA
 @property (nonatomic) float SPL;
@@ -32,10 +34,14 @@ enum SonoFreqWeighting { FreqWeightingA, FreqWeightingC, FreqWeightingI, FreqWei
 
 @property (nonatomic) enum SonoTimeWeighting timeWeighting;
 @property (nonatomic) enum SonoFreqWeighting freqWeighting;
+@property (nonatomic) float integrationTime; // seconds
 
 // METHODS
 - (void)startInput;
 - (void)stopInput;
+- (void)startMeasurement;
+- (void)stopMeasurement;
+- (void)calibrate;
 
 @end
 

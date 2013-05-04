@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		05E0D97117347D2C00F4D334 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05E0D97017347D2C00F4D334 /* Accelerate.framework */; };
 		05EA66FD17321F4D002F77F6 /* SonoMeasurement.m in Sources */ = {isa = PBXBuildFile; fileRef = 05EA66FC17321F4D002F77F6 /* SonoMeasurement.m */; };
 		05EA670017322D66002F77F6 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05EA66FE17322D66002F77F6 /* AudioToolbox.framework */; };
 		05EA670117322D66002F77F6 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05EA66FF17322D66002F77F6 /* CoreAudio.framework */; };
@@ -26,6 +27,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		05E0D97017347D2C00F4D334 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		05EA66FB17321F4D002F77F6 /* SonoMeasurement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SonoMeasurement.h; sourceTree = "<group>"; };
 		05EA66FC17321F4D002F77F6 /* SonoMeasurement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SonoMeasurement.m; sourceTree = "<group>"; };
 		05EA66FE17322D66002F77F6 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -57,6 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				05E0D97117347D2C00F4D334 /* Accelerate.framework in Frameworks */,
 				05EA670017322D66002F77F6 /* AudioToolbox.framework in Frameworks */,
 				05EA670117322D66002F77F6 /* CoreAudio.framework in Frameworks */,
 				05F325E917282BF100B7D8B2 /* UIKit.framework in Frameworks */,
@@ -88,6 +91,7 @@
 		05F325E717282BF100B7D8B2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				05E0D97017347D2C00F4D334 /* Accelerate.framework */,
 				05EA66FE17322D66002F77F6 /* AudioToolbox.framework */,
 				05EA66FF17322D66002F77F6 /* CoreAudio.framework */,
 				05F325E817282BF100B7D8B2 /* UIKit.framework */,
