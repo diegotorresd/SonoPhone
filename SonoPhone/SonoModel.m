@@ -9,6 +9,8 @@
 #import "SonoModel.h"
 #include "AverageBuffer.h"
 
+//TODO: Timer para realizar medida con el AvgBuffer.
+
 // private members
 #define SONO_FREQWEIGHTING_NUMBUFFERS 3
 typedef struct
@@ -386,7 +388,7 @@ void processWithIOData(float * ioData,int frames, FilterStateBuffers BiQuadState
         *error_p = AudioQueueEnqueueBuffer(state.mQueue, state.mBuffers[i], 0, NULL);
         if (*error_p)
         {
-            NSLog(@"Error allocating buffer %d", i);
+            NSLog(@"Error enqueueing buffer %d", i);
             break;
         }
     }
