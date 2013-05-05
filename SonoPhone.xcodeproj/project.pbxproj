@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0505D86F173608A000978493 /* SonoLevelMeter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0505D86E173608A000978493 /* SonoLevelMeter.m */; };
+		0505D872173608ED00978493 /* MeterTable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0505D871173608ED00978493 /* MeterTable.cpp */; };
 		05E0D97117347D2C00F4D334 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05E0D97017347D2C00F4D334 /* Accelerate.framework */; };
 		05EA66FD17321F4D002F77F6 /* SonoMeasurement.m in Sources */ = {isa = PBXBuildFile; fileRef = 05EA66FC17321F4D002F77F6 /* SonoMeasurement.m */; };
 		05EA670017322D66002F77F6 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05EA66FE17322D66002F77F6 /* AudioToolbox.framework */; };
@@ -27,6 +29,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0505D86D173608A000978493 /* SonoLevelMeter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SonoLevelMeter.h; sourceTree = "<group>"; };
+		0505D86E173608A000978493 /* SonoLevelMeter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SonoLevelMeter.m; sourceTree = "<group>"; };
+		0505D870173608DB00978493 /* MeterTable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeterTable.h; sourceTree = "<group>"; };
+		0505D871173608ED00978493 /* MeterTable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MeterTable.cpp; sourceTree = "<group>"; };
 		05E0D97017347D2C00F4D334 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		05EA66FB17321F4D002F77F6 /* SonoMeasurement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SonoMeasurement.h; sourceTree = "<group>"; };
 		05EA66FC17321F4D002F77F6 /* SonoMeasurement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SonoMeasurement.m; sourceTree = "<group>"; };
@@ -138,6 +144,10 @@
 			children = (
 				05F3260F17282F5300B7D8B2 /* AverageBuffer.h */,
 				05F3261017282F6E00B7D8B2 /* AverageBuffer.c */,
+				0505D86D173608A000978493 /* SonoLevelMeter.h */,
+				0505D86E173608A000978493 /* SonoLevelMeter.m */,
+				0505D870173608DB00978493 /* MeterTable.h */,
+				0505D871173608ED00978493 /* MeterTable.cpp */,
 			);
 			name = "Auxiliary Classes";
 			sourceTree = "<group>";
@@ -215,6 +225,8 @@
 				05F3260D17282C6600B7D8B2 /* SonoModel.m in Sources */,
 				05F3261117282F6E00B7D8B2 /* AverageBuffer.c in Sources */,
 				05EA66FD17321F4D002F77F6 /* SonoMeasurement.m in Sources */,
+				0505D86F173608A000978493 /* SonoLevelMeter.m in Sources */,
+				0505D872173608ED00978493 /* MeterTable.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
