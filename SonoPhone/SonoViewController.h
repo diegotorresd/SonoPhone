@@ -11,5 +11,6 @@
 
 @interface SonoViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UISegmentedControl *FreqWeightingControl;
+@property (weak, nonatomic) IBOutlet UISwitch *startStopSwitch;
 
 @end

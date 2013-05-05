@@ -71,8 +71,8 @@ static void InputBufferHandler(	void *								inUserData,
         if (error) NSLog(@"Error getting level");
         else
         {
-            //NSLog(@"Level: %g dB",meters[0].mAveragePower);
-              myState->SPLevel = meters[0].mAveragePower;
+            NSLog(@"Level: %g dB",meters[0].mAveragePower);
+            myState->SPLevel = meters[0].mAveragePower;
         }
         free(meters);
         AudioSampleType *samples;
@@ -177,7 +177,7 @@ void processWithIOData(float * ioData,int frames, FilterStateBuffers BiQuadState
 // SPL getter
 -(float)SPL
 {
-    //NSLog(@"%g",state.SPLevel);
+    NSLog(@"get SPL: %g",state.SPLevel);
     return state.SPLevel;
 }
 

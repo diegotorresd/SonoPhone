@@ -91,6 +91,7 @@
                     </view>
                     <connections>
                         <outlet property="FreqWeightingControl" destination="0QS-Ne-fVO" id="Gc7-cx-Ehv"/>
+                        <outlet property="startStopSwitch" destination="GYP-5E-E93" id="zub-Yc-BCq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4" sceneMemberID="firstResponder"/>
@@ -107,6 +108,7 @@
                 <relationship kind="action" name="freqWeightingSelected:"/>
                 <relationship kind="action" name="inputStartStop:forEvent:"/>
                 <relationship kind="outlet" name="FreqWeightingControl" candidateClass="UISegmentedControl"/>
+                <relationship kind="outlet" name="startStopSwitch" candidateClass="UISwitch"/>
             </relationships>
         </class>
     </classes>

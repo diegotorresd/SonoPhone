@@ -21,6 +21,8 @@
 
 @synthesize SPLtimer = _SPLtimer;
 @synthesize model = _model;
+@synthesize startStopSwitch = _startStopSwitch;
+@synthesize FreqWeightingControl = _FreqWeightingControl;
 
 // model getter
 -(SonoModel *)model
@@ -28,7 +30,7 @@
     // GETTER
     if (_model == nil)
     {
-        NSLog(@"Initializing new model!");
+        //NSLog(@"Initializing new model!");
         _model = [[SonoModel alloc] init];
     }
     return _model;
@@ -55,6 +57,7 @@
         if (error) NSLog(@"Error getting input availability");
         NSLog(@"Input availability: %ld",inputAvailable);
     }
+    [self.startStopSwitch setOn:self.model.isRunning];
 }
 
 - (void)didReceiveMemoryWarning
@@ -65,7 +68,7 @@
 
 -(void)getSPLfromModel:(NSTimer *)timer
 {
-    
+    //NSLog(@"Bump!");
 }
 
 #pragma mark Actions
