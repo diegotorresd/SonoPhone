@@ -32,7 +32,7 @@ typedef struct
     Float32 SPLevel;
     enum SonoFreqWeighting freqWeighting;
     enum SonoTimeWeighting timeWeighting;
-    //FilterStateBuffers timeWeightingFilterBuffers;
+    FilterStateBuffers timeWeightingFilterBuffers;
     FilterStateBuffers freqWeightingFilterBuffers[SONO_FREQWEIGHTING_NUMBUFFERS];
     AverageBuffer avgBuffer;
 } SonoModelState;
@@ -63,7 +63,7 @@ static void InputBufferHandler(	void *								inUserData,
     if (myState->isRunning)
     {
         myState->totalBytes += inNumPackets;
-        NSLog(@"Reading %ld packets, already %ld read",inNumPackets,myState->totalBytes);
+        //NSLog(@"Reading %ld packets, already %ld read",inNumPackets,myState->totalBytes);
         AudioQueueLevelMeterState *meters;
         UInt32 sizeLvlMtr = sizeof(AudioQueueLevelMeterState) * myState->mFormat.mChannelsPerFrame;
         meters = malloc(sizeLvlMtr);
@@ -71,7 +71,7 @@ static void InputBufferHandler(	void *								inUserData,
         if (error) NSLog(@"Error getting level");
         else
         {
-            NSLog(@"Level: %g dB",meters[0].mAveragePower);
+            //NSLog(@"Level: %g dB",meters[0].mAveragePower);
             myState->SPLevel = meters[0].mAveragePower;
         }
         free(meters);
@@ -159,7 +159,7 @@ void processWithIOData(float * ioData,int frames, FilterStateBuffers BiQuadState
 @synthesize freqWeighting = _freqWeighting;
 @synthesize timeWeighting = _timeWeighting;
 @synthesize isMeasuring;
-@synthesize integrationTime = _integrationTime;
+//@synthesize integrationTime = _integrationTime;
 @synthesize measurement = _measurement;
 
 // isRunning getter:
@@ -177,7 +177,7 @@ void processWithIOData(float * ioData,int frames, FilterStateBuffers BiQuadState
 // SPL getter
 -(float)SPL
 {
-    NSLog(@"get SPL: %g",state.SPLevel);
+    //NSLog(@"get SPL: %g",state.SPLevel);
     return state.SPLevel;
 }
 
@@ -397,7 +397,7 @@ void processWithIOData(float * ioData,int frames, FilterStateBuffers BiQuadState
 -(void)startMeasurement
 {
     int size;
-    size = (int)floorf(self.integrationTime / Sono_BufferLengthSeconds);
+    size = 50; //TODO: set to max size
     NSLog(@"size: %d",size);
     // init measurement
     self.measurement.description = @"Sample measurement"; //TODO: from user input?

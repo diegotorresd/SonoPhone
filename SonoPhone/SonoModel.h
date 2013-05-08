@@ -15,7 +15,7 @@
 #import "SonoMeasurement.h"
 
 #define Sono_NumberOfBuffers 3
-#define Sono_BufferLengthSeconds 0.25
+#define Sono_BufferLengthSeconds 0.125
 #define Sono_SlowTimeConstant 1
 #define Sono_FastTimeConstant 0.125
 
@@ -34,7 +34,7 @@ enum SonoFreqWeighting { FreqWeightingA, FreqWeightingC, FreqWeightingI, FreqWei
 
 @property (nonatomic) enum SonoTimeWeighting timeWeighting;
 @property (nonatomic) enum SonoFreqWeighting freqWeighting;
-@property (nonatomic) float integrationTime; // seconds
+//@property (nonatomic) float integrationTime; // seconds
 
 // METHODS
 - (void)startInput;

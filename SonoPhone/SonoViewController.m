@@ -13,9 +13,11 @@
 
 @interface SonoViewController () <SonoLevelMeterDataSource>
 @property (weak, nonatomic) IBOutlet SonoLevelMeter *SPLMeter;
+@property (weak, nonatomic) IBOutlet UIButton *StoreStopButton;
 
 @property (nonatomic,strong) SonoModel * model;
 @property (weak) NSTimer *SPLtimer;
+
 -(void)getSPLfromModel:(NSTimer *)timer;
 
 @end
@@ -107,6 +109,7 @@
         //stop input
         [self.model stopInput];
         if ([self.SPLtimer isValid]) [self.SPLtimer invalidate];
+        [self.SPLMeter setNeedsDisplay];
     }
 }
 
@@ -124,6 +127,9 @@
         default:
             break;
     }
+}
+- (IBAction)StoreStopTouched:(id)sender {
+    
 }
 
 #pragma mark SonoLevelMeterDataSource
