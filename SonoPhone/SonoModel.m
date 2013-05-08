@@ -161,6 +161,7 @@ void processWithIOData(float * ioData,int frames, FilterStateBuffers BiQuadState
 @synthesize isMeasuring;
 //@synthesize integrationTime = _integrationTime;
 @synthesize measurement = _measurement;
+@synthesize delegate = _delegate;
 
 // isRunning getter:
 -(BOOL)isRunning
@@ -399,10 +400,12 @@ void processWithIOData(float * ioData,int frames, FilterStateBuffers BiQuadState
     int size;
     size = 50; //TODO: set to max size
     NSLog(@"size: %d",size);
+    NSLog(@"starting measurement");
     // init measurement
     self.measurement.description = @"Sample measurement"; //TODO: from user input?
     self.measurement.startDate = [NSDate date];
     state.isMeasuring = true;
+    [self.delegate measurementWasStarted];
     // calculate size
     avgBufInit(&state.avgBuffer, size);
 }
@@ -411,6 +414,7 @@ void processWithIOData(float * ioData,int frames, FilterStateBuffers BiQuadState
 {
     self.measurement.endDate = [NSDate date];
     state.isMeasuring = false;
+    [self.delegate measurementWasStopped];
     avgBufRelease(&state.avgBuffer);
 }
 

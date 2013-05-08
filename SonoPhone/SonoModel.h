@@ -19,6 +19,11 @@
 #define Sono_SlowTimeConstant 1
 #define Sono_FastTimeConstant 0.125
 
+@protocol SonoModelDelegate <NSObject>
+-(void)measurementWasStarted;
+-(void)measurementWasStopped;
+@end
+
 @interface SonoModel : NSObject
 
 // STATE
@@ -35,6 +40,9 @@ enum SonoFreqWeighting { FreqWeightingA, FreqWeightingC, FreqWeightingI, FreqWei
 @property (nonatomic) enum SonoTimeWeighting timeWeighting;
 @property (nonatomic) enum SonoFreqWeighting freqWeighting;
 //@property (nonatomic) float integrationTime; // seconds
+
+// DELEGATE
+@property (nonatomic, weak) id<SonoModelDelegate> delegate;
 
 // METHODS
 - (void)startInput;

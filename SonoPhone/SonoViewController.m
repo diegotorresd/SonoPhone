@@ -11,10 +11,10 @@
 
 #define Sono_MinDBValue -60.0
 
-@interface SonoViewController () <SonoLevelMeterDataSource>
+@interface SonoViewController () <SonoLevelMeterDataSource, SonoModelDelegate>
 @property (weak, nonatomic) IBOutlet SonoLevelMeter *SPLMeter;
 @property (weak, nonatomic) IBOutlet UIButton *StoreStopButton;
-
+@property (nonatomic) BOOL measuring;
 @property (nonatomic,strong) SonoModel * model;
 @property (weak) NSTimer *SPLtimer;
 
@@ -29,6 +29,7 @@
 @synthesize startStopSwitch = _startStopSwitch;
 @synthesize FreqWeightingControl = _FreqWeightingControl;
 @synthesize SPLMeter = _SPLMeter;
+@synthesize measuring;
 
 // model getter
 -(SonoModel *)model
@@ -40,6 +41,18 @@
         _model = [[SonoModel alloc] init];
     }
     return _model;
+}
+
+// model setter
+-(void)setModel:(SonoModel *)model
+{
+    _model = model;
+}
+
+// measuring getter
+-(BOOL)measuring
+{
+    return self.model.isMeasuring;
 }
 
 -(void)setSPLMeter:(SonoLevelMeter *)SPLMeter
@@ -71,7 +84,9 @@
         NSLog(@"Input availability: %ld",inputAvailable);
     }
     [self.startStopSwitch setOn:self.model.isRunning];
-    
+    //UIColor * greenColor = [UIColor colorWithRed:0 green:1 blue:0 alpha:0.8];
+    //[self.StoreStopButton setTintColor:greenColor];
+    self.model.delegate = self;
 }
 
 - (void)didReceiveMemoryWarning
@@ -129,7 +144,16 @@
     }
 }
 - (IBAction)StoreStopTouched:(id)sender {
-    
+    if (!self.measuring)
+    {
+        
+        [self.model startMeasurement];
+    }
+    else
+    {
+        NSLog(@"stopping measurement");
+        [self.model stopMeasurement];
+    }
 }
 
 #pragma mark SonoLevelMeterDataSource
@@ -147,6 +171,24 @@
     else val = 0;
     //NSLog(@"norm value: %f (re %f)", val, relVal);
     return val;
+}
+
+#pragma mark SonoModelDelegate
+-(void)measurementWasStarted
+{
+    //NSLog(@"delegate msg received: start");
+    //UIColor * redColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:0.8];
+    [self.StoreStopButton setTitle:@"STOP" forState:UIControlStateNormal];
+    //[self.StoreStopButton setTintColor:redColor];
+    //TODO: disable controls
+}
+
+-(void)measurementWasStopped
+{
+    //UIColor * greenColor = [UIColor colorWithRed:0 green:1 blue:0 alpha:0.8];
+    [self.StoreStopButton setTitle:@"STORE" forState:UIControlStateNormal];
+    //[self.StoreStopButton setTintColor:greenColor];
+    //TODO: enable controls
 }
 
 #pragma mark Interruption Listener
