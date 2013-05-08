@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SonoLevelMeter.h"
 #define Sono_SPLRefreshInterval 0.5
 
 @interface SonoViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UISegmentedControl *FreqWeightingControl;
 @property (weak, nonatomic) IBOutlet UISwitch *startStopSwitch;
+
 
 @end
