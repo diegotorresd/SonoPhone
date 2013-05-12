@@ -18,7 +18,7 @@
 -(id)data
 {
     if (_data == nil)
-        _data = [NSMutableDictionary dictionary];
+        _data = [NSDictionary dictionary];
     return _data;
 }
 

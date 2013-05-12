@@ -13,7 +13,7 @@
 @property NSString * description;
 @property NSDate * startDate;
 @property NSDate * endDate;
-@property (nonatomic) NSMutableDictionary * data;
+@property (nonatomic) NSDictionary * data;
 
 -(NSString *)persistMeasurement;
 -(BOOL)loadMeasurementFromFile:(NSString *)filePath;

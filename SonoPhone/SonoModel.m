@@ -34,7 +34,7 @@ typedef struct
     enum SonoTimeWeighting timeWeighting;
     FilterStateBuffers timeWeightingFilterBuffers;
     FilterStateBuffers freqWeightingFilterBuffers[SONO_FREQWEIGHTING_NUMBUFFERS];
-    AverageBuffer avgBuffer;
+    CFMutableDictionaryRef AW_AVGBuf;
 } SonoModelState;
 
 @interface SonoModel ()
@@ -60,6 +60,8 @@ static void InputBufferHandler(	void *								inUserData,
 {
     SonoModelState * myState = (SonoModelState *)inUserData;
     OSStatus error;
+    CFDateRef absDate;
+    CFNumberRef valToWrite;
     if (myState->isRunning)
     {
         myState->totalBytes += inNumPackets;
@@ -79,9 +81,16 @@ static void InputBufferHandler(	void *								inUserData,
         if (myState->isMeasuring)
         {
             samples = (AudioSampleType *)inBuffer->mAudioData;
-            float maxx = processSamples(samples,inBuffer->mAudioDataByteSize, myState);
-            avgBufWrite(&myState->avgBuffer, &maxx);
+            float timeWval = 0;
+            float maxx = processSamples(samples,inBuffer->mAudioDataByteSize, myState, &timeWval);
+            //avgBufWrite(&myState->avgBuffer, &maxx);
+            absDate = CFDateCreate(kCFAllocatorDefault, CFAbsoluteTimeGetCurrent());
+            valToWrite = CFNumberCreate(kCFAllocatorDefault, kCFNumberFloatType, &maxx);
+            CFDictionaryAddValue(myState->AW_AVGBuf, absDate, valToWrite);
+            CFRelease(absDate);
+            CFRelease(valToWrite);
         }
+        
         //NSLog(@"RMS value: %g",maxx);
         error = AudioQueueEnqueueBuffer(myState->mQueue, inBuffer, 0, NULL);
         if (error) NSLog(@"Error enqueuing buffer");
@@ -89,12 +98,10 @@ static void InputBufferHandler(	void *								inUserData,
     else NSLog(@"Queue was stopped");
 }
 
-float processSamples(AudioSampleType * samples, UInt32 size, SonoModelState * s_state)
+float processSamples(AudioSampleType * samples, UInt32 size, SonoModelState * s_state, float * timeWeightedValue)
 {
-    //TODO: Revisar cálculos para integración
     int i;
     UInt32 numElements = size / sizeof(AudioSampleType);
-    
     // Convert to floating point and deinterleave (take one every 2 samples)
     numElements = numElements / 2;
     float * vector = malloc(numElements * sizeof(float));
@@ -109,27 +116,21 @@ float processSamples(AudioSampleType * samples, UInt32 size, SonoModelState * s_
         }
     }
     
+    // Apply freq Weighting Gain Factor
+    float maxval = INT16_MAX / s_state->freqWeightingFilterBuffers[0].gGainFactor;
+    vDSP_vsdiv(vector, 1, &maxval, vector, 1, numElements);
+    
     // Square
     vsq(vector, 1, vector, 1, numElements);
     
-    // Square root
-    int n = (int)numElements;
-    vvsqrtf(vector, vector, &n);
+    //TODO: apply timeweighting and store
+    //TODO: apply calibration value
     
-    // Normalize
-    float maxval = 1 / s_state->freqWeightingFilterBuffers[0].gGainFactor;
-    float * vec_normalized= malloc(numElements * sizeof(float));
-    vDSP_vsdiv(vector, 1, &maxval, vec_normalized, 1, numElements);
-    free(vector);
-    
-    // dB conversion
-    float refValue = INT16_MAX; //TODO: Valor de calibración
-    vDSP_vdbcon(vec_normalized, 1, &refValue, vec_normalized, 1, numElements, 1); // 20 log V_n/refValue
-    
-    // Get mean value
+    // Integrate
     float result = 0;
-    vDSP_meanv(vec_normalized, 1, &result, numElements);
-    free(vec_normalized);
+    vDSP_sve(vector, 1, &result, numElements);
+    free(vector);
+    //NSLog(@"result: %f",result);
     return result;
 }
 
@@ -297,6 +298,7 @@ void processWithIOData(float * ioData,int frames, FilterStateBuffers BiQuadState
                     UInt32 meteringEnabled = 1;
                     error = AudioQueueSetProperty(state.mQueue, kAudioQueueProperty_EnableLevelMetering, &meteringEnabled, sizeof(meteringEnabled)  );
                     if (error) NSLog(@"Error enabling level metering");
+                    [self.delegate inputWasStarted];
                 }
             }
         }
@@ -322,6 +324,7 @@ void processWithIOData(float * ioData,int frames, FilterStateBuffers BiQuadState
             if (error) NSLog(@"Error disposing Audio Queue");
             // Stop Audio Session
             state.SPLevel = 0;
+            [self.delegate inputWasStopped];
         }
     }
 }
@@ -407,15 +410,19 @@ void processWithIOData(float * ioData,int frames, FilterStateBuffers BiQuadState
     state.isMeasuring = true;
     [self.delegate measurementWasStarted];
     // calculate size
-    avgBufInit(&state.avgBuffer, size);
+    //avgBufInit(&state.avgBuffer, size);
+    state.AW_AVGBuf = CFDictionaryCreateMutable(kCFAllocatorDefault, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
 }
 
 -(void)stopMeasurement
 {
+    CFShow(state.AW_AVGBuf);
+    self.measurement.data = (__bridge NSDictionary *)(state.AW_AVGBuf);
     self.measurement.endDate = [NSDate date];
     state.isMeasuring = false;
     [self.delegate measurementWasStopped];
-    avgBufRelease(&state.avgBuffer);
+    //avgBufRelease(&state.avgBuffer);
+    CFRelease(state.AW_AVGBuf);
 }
 
 -(void)calibrate

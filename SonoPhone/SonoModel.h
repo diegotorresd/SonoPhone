@@ -22,6 +22,8 @@
 @protocol SonoModelDelegate <NSObject>
 -(void)measurementWasStarted;
 -(void)measurementWasStopped;
+-(void)inputWasStarted;
+-(void)inputWasStopped;
 @end
 
 @interface SonoModel : NSObject

@@ -86,6 +86,7 @@
     [self.startStopSwitch setOn:self.model.isRunning];
     //UIColor * greenColor = [UIColor colorWithRed:0 green:1 blue:0 alpha:0.8];
     //[self.StoreStopButton setTintColor:greenColor];
+    [self.StoreStopButton setEnabled:NO];
     self.model.delegate = self;
 }
 
@@ -107,6 +108,7 @@
     UISwitch * inputSwitch = (UISwitch *)sender;
     if (inputSwitch.on)
     {
+        self.model.freqWeighting = FreqWeightingA;
         //start input
         [self.model startInput];
         if (self.SPLtimer)
@@ -177,10 +179,10 @@
 -(void)measurementWasStarted
 {
     //NSLog(@"delegate msg received: start");
-    //UIColor * redColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:0.8];
     [self.StoreStopButton setTitle:@"STOP" forState:UIControlStateNormal];
-    //[self.StoreStopButton setTintColor:redColor];
-    //TODO: disable controls
+    // disable controls
+    [self.startStopSwitch setEnabled:NO];
+    [self.FreqWeightingControl setEnabled:NO];
 }
 
 -(void)measurementWasStopped
@@ -188,7 +190,22 @@
     //UIColor * greenColor = [UIColor colorWithRed:0 green:1 blue:0 alpha:0.8];
     [self.StoreStopButton setTitle:@"STORE" forState:UIControlStateNormal];
     //[self.StoreStopButton setTintColor:greenColor];
-    //TODO: enable controls
+    // enable controls
+    [self.startStopSwitch setEnabled:YES];
+    [self.FreqWeightingControl setEnabled:YES];
+
+}
+
+-(void)inputWasStarted
+{
+    // enable measurement button
+    [self.StoreStopButton setEnabled:YES];
+}
+
+-(void)inputWasStopped
+{
+    // disable measurement button
+    [self.StoreStopButton setEnabled:NO];
 }
 
 #pragma mark Interruption Listener
