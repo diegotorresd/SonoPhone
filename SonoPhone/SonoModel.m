@@ -13,6 +13,7 @@
 
 // private members
 #define SONO_FREQWEIGHTING_NUMBUFFERS 3
+#define SONO_CALIBRATIONBUFFER_SIZE 50
 typedef struct
 {
     float * gCoefBuffer;
@@ -29,12 +30,15 @@ typedef struct
     UInt32 totalBytes;
     bool isRunning;
     bool isMeasuring;
+    bool isCalibrating;
     Float32 SPLevel;
     enum SonoFreqWeighting freqWeighting;
     enum SonoTimeWeighting timeWeighting;
     FilterStateBuffers timeWeightingFilterBuffers;
     FilterStateBuffers freqWeightingFilterBuffers[SONO_FREQWEIGHTING_NUMBUFFERS];
     CFMutableDictionaryRef AW_AVGBuf;
+    AverageBuffer calibrationBuffer;
+    float calibrationValue;
 } SonoModelState;
 
 @interface SonoModel ()
@@ -75,6 +79,11 @@ static void InputBufferHandler(	void *								inUserData,
         {
             //NSLog(@"Level: %g dB",meters[0].mAveragePower);
             myState->SPLevel = meters[0].mAveragePower;
+            if (myState->isCalibrating)
+            {
+                //NSLog(@"storing for calibration");
+                avgBufWrite(&myState->calibrationBuffer, &meters[0].mAveragePower);
+            }
         }
         free(meters);
         AudioSampleType *samples;
@@ -124,8 +133,7 @@ float processSamples(AudioSampleType * samples, UInt32 size, SonoModelState * s_
     vsq(vector, 1, vector, 1, numElements);
     
     //TODO: apply timeweighting and store
-    //TODO: apply calibration value
-    
+      
     // Integrate
     float result = 0;
     vDSP_sve(vector, 1, &result, numElements);
@@ -259,6 +267,17 @@ void processWithIOData(float * ioData,int frames, FilterStateBuffers BiQuadState
 
 // METHODS
 
++ (id)sharedSonoModel
+{
+    // Returns a shared instance (singleton pattern)
+    static SonoModel * sharedMyModel = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedMyModel = [[self alloc] init];
+    });
+    return sharedMyModel;
+}
+
 -(void)startInput
 {
     // check if queue was already running, in which case restart
@@ -298,6 +317,9 @@ void processWithIOData(float * ioData,int frames, FilterStateBuffers BiQuadState
                     UInt32 meteringEnabled = 1;
                     error = AudioQueueSetProperty(state.mQueue, kAudioQueueProperty_EnableLevelMetering, &meteringEnabled, sizeof(meteringEnabled)  );
                     if (error) NSLog(@"Error enabling level metering");
+                    // get calibration value
+                    state.calibrationValue = [[NSUserDefaults standardUserDefaults] floatForKey:@"CalibrationValuedB"];
+                    NSLog(@"calibrationValue: %f",state.calibrationValue);
                     [self.delegate inputWasStarted];
                 }
             }
@@ -416,6 +438,7 @@ void processWithIOData(float * ioData,int frames, FilterStateBuffers BiQuadState
 
 -(void)stopMeasurement
 {
+    //TODO: apply calibration value  
     CFShow(state.AW_AVGBuf);
     self.measurement.data = (__bridge NSDictionary *)(state.AW_AVGBuf);
     self.measurement.endDate = [NSDate date];
@@ -427,6 +450,22 @@ void processWithIOData(float * ioData,int frames, FilterStateBuffers BiQuadState
 
 -(void)calibrate
 {
+    state.isCalibrating = true;
+    avgBufInit(&state.calibrationBuffer, SONO_CALIBRATIONBUFFER_SIZE);
+    NSTimeInterval timeInt = SONO_CALIBRATIONBUFFER_SIZE * Sono_BufferLengthSeconds;
+    //NSLog(@"time interval: %f", timeInt);
+    [self startInput];
+    [self performSelector:@selector(stopCalibration) withObject:nil afterDelay:timeInt];
+    [self.calibrationDelegate calibrationWasStarted];
     
+}
+
+-(void)stopCalibration
+{
+    [self stopInput];    
+    float avgVal = calculateAverage(&state.calibrationBuffer);
+    //NSLog(@"avgVal: %f",avgVal);
+    [[NSUserDefaults standardUserDefaults] setFloat:(-avgVal) forKey:@"CalibrationValuedB"];
+    [self.calibrationDelegate calibrationWasFinished];
 }
 @end

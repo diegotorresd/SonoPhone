@@ -38,7 +38,7 @@
     if (_model == nil)
     {
         //NSLog(@"Initializing new model!");
-        _model = [[SonoModel alloc] init];
+        _model = [SonoModel sharedSonoModel];
     }
     return _model;
 }
@@ -64,6 +64,7 @@
 
 - (void)viewDidLoad
 {
+    NSLog(@"Loading SonoViewController");
     [super viewDidLoad];
 	// Initialize Audio Session
     OSStatus error = 0;
@@ -100,6 +101,24 @@
 {
     //NSLog(@"Bump!");
     [self.SPLMeter setNeedsDisplay];
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"GoToCalibration"])
+    {
+        if (self.model.isRunning)
+            [self.model stopInput];
+        self.model.calibrationDelegate = segue.destinationViewController;
+    }
+}
+
+-(BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
+{
+    if ([identifier isEqualToString:@"GoToCalibration"] && !self.model.isMeasuring) {
+        return YES;
+    }
+    else return NO;
 }
 
 #pragma mark Actions
@@ -200,12 +219,14 @@
 {
     // enable measurement button
     [self.StoreStopButton setEnabled:YES];
+    [self.startStopSwitch setOn:YES];
 }
 
 -(void)inputWasStopped
 {
     // disable measurement button
     [self.StoreStopButton setEnabled:NO];
+    [self.startStopSwitch setOn:NO];
 }
 
 #pragma mark Interruption Listener

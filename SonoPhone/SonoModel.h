@@ -26,6 +26,11 @@
 -(void)inputWasStopped;
 @end
 
+@protocol SonoModelCalibrationDelegate <NSObject>
+-(void)calibrationWasStarted;
+-(void)calibrationWasFinished;
+@end
+
 @interface SonoModel : NSObject
 
 // STATE
@@ -45,8 +50,11 @@ enum SonoFreqWeighting { FreqWeightingA, FreqWeightingC, FreqWeightingI, FreqWei
 
 // DELEGATE
 @property (nonatomic, weak) id<SonoModelDelegate> delegate;
+@property (nonatomic, weak) id<SonoModelCalibrationDelegate> calibrationDelegate;
 
 // METHODS
++ (id)sharedSonoModel;
+
 - (void)startInput;
 - (void)stopInput;
 - (void)startMeasurement;

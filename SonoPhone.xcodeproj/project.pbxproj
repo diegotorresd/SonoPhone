@@ -10,6 +10,7 @@
 		0505D86F173608A000978493 /* SonoLevelMeter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0505D86E173608A000978493 /* SonoLevelMeter.m */; };
 		054B3C2F1737233F005F5DBA /* sound_meter_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 054B3C2E1737233F005F5DBA /* sound_meter_background.png */; };
 		05E0D97117347D2C00F4D334 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05E0D97017347D2C00F4D334 /* Accelerate.framework */; };
+		05E6FF311741A6FC006C3FBC /* SonoCalibrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05E6FF301741A6FC006C3FBC /* SonoCalibrationViewController.m */; };
 		05EA66FD17321F4D002F77F6 /* SonoMeasurement.m in Sources */ = {isa = PBXBuildFile; fileRef = 05EA66FC17321F4D002F77F6 /* SonoMeasurement.m */; };
 		05EA670017322D66002F77F6 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05EA66FE17322D66002F77F6 /* AudioToolbox.framework */; };
 		05EA670117322D66002F77F6 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05EA66FF17322D66002F77F6 /* CoreAudio.framework */; };
@@ -33,6 +34,8 @@
 		0505D86E173608A000978493 /* SonoLevelMeter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SonoLevelMeter.m; sourceTree = "<group>"; };
 		054B3C2E1737233F005F5DBA /* sound_meter_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sound_meter_background.png; sourceTree = "<group>"; };
 		05E0D97017347D2C00F4D334 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		05E6FF2F1741A6FC006C3FBC /* SonoCalibrationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SonoCalibrationViewController.h; sourceTree = "<group>"; };
+		05E6FF301741A6FC006C3FBC /* SonoCalibrationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SonoCalibrationViewController.m; sourceTree = "<group>"; };
 		05EA66FB17321F4D002F77F6 /* SonoMeasurement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SonoMeasurement.h; sourceTree = "<group>"; };
 		05EA66FC17321F4D002F77F6 /* SonoMeasurement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SonoMeasurement.m; sourceTree = "<group>"; };
 		05EA66FE17322D66002F77F6 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -113,6 +116,8 @@
 				05F325F717282BF100B7D8B2 /* SonoAppDelegate.h */,
 				05F325F817282BF100B7D8B2 /* SonoAppDelegate.m */,
 				05F3260017282BF100B7D8B2 /* MainStoryboard.storyboard */,
+				05E6FF2F1741A6FC006C3FBC /* SonoCalibrationViewController.h */,
+				05E6FF301741A6FC006C3FBC /* SonoCalibrationViewController.m */,
 				054B3C2E1737233F005F5DBA /* sound_meter_background.png */,
 				05F3260317282BF100B7D8B2 /* SonoViewController.h */,
 				05F3260417282BF100B7D8B2 /* SonoViewController.m */,
@@ -225,6 +230,7 @@
 				05F3261117282F6E00B7D8B2 /* AverageBuffer.c in Sources */,
 				05EA66FD17321F4D002F77F6 /* SonoMeasurement.m in Sources */,
 				0505D86F173608A000978493 /* SonoLevelMeter.m in Sources */,
+				05E6FF311741A6FC006C3FBC /* SonoCalibrationViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
