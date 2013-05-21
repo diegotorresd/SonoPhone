@@ -44,7 +44,6 @@
 enum SonoTimeWeighting { TimeWeightingFast, TimeWeightingSlow };
 enum SonoFreqWeighting { FreqWeightingA, FreqWeightingC, FreqWeightingI, FreqWeightingFlat };
 
-@property (nonatomic) enum SonoTimeWeighting timeWeighting;
 @property (nonatomic) enum SonoFreqWeighting freqWeighting;
 //@property (nonatomic) float integrationTime; // seconds
 

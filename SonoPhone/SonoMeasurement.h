@@ -13,9 +13,14 @@
 @property NSString * description;
 @property NSDate * startDate;
 @property NSDate * endDate;
+@property (nonatomic) NSTimeInterval measurementLength;
 @property (nonatomic) NSDictionary * data;
+@property (nonatomic) NSDictionary * timeWeightedData;
+@property (readonly) float EquivalentLevelDB;
+@property (readonly) float PeakValueDB;
 
 -(NSString *)persistMeasurement;
 -(BOOL)loadMeasurementFromFile:(NSString *)filePath;
+
 
 @end

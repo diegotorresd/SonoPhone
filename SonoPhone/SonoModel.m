@@ -39,6 +39,7 @@ typedef struct
     CFMutableDictionaryRef AW_AVGBuf;
     AverageBuffer calibrationBuffer;
     float calibrationValue;
+    AudioFileID audFile;
 } SonoModelState;
 
 @interface SonoModel ()
@@ -68,7 +69,7 @@ static void InputBufferHandler(	void *								inUserData,
     CFNumberRef valToWrite;
     if (myState->isRunning)
     {
-        myState->totalBytes += inNumPackets;
+        
         //NSLog(@"Reading %ld packets, already %ld read",inNumPackets,myState->totalBytes);
         AudioQueueLevelMeterState *meters;
         UInt32 sizeLvlMtr = sizeof(AudioQueueLevelMeterState) * myState->mFormat.mChannelsPerFrame;
@@ -90,11 +91,24 @@ static void InputBufferHandler(	void *								inUserData,
         if (myState->isMeasuring)
         {
             samples = (AudioSampleType *)inBuffer->mAudioData;
+            if (AudioFileWritePackets(
+                                      myState->audFile,
+                                      false,
+                                      inBuffer->mAudioDataByteSize,
+                                      NULL,
+                                      myState->totalBytes,
+                                      &inNumPackets,
+                                      inBuffer->mAudioData
+                ) == noErr)
+                myState->totalBytes += inNumPackets, NSLog(@"Writing to file!");
             float timeWval = 0;
             float maxx = processSamples(samples,inBuffer->mAudioDataByteSize, myState, &timeWval);
+            //NSLog(@"maxx: %f",maxx);
             //avgBufWrite(&myState->avgBuffer, &maxx);
             absDate = CFDateCreate(kCFAllocatorDefault, CFAbsoluteTimeGetCurrent());
             valToWrite = CFNumberCreate(kCFAllocatorDefault, kCFNumberFloatType, &maxx);
+            //CFShow(absDate);
+            //CFShow(valToWrite);
             CFDictionaryAddValue(myState->AW_AVGBuf, absDate, valToWrite);
             CFRelease(absDate);
             CFRelease(valToWrite);
@@ -166,7 +180,6 @@ void processWithIOData(float * ioData,int frames, FilterStateBuffers BiQuadState
 @synthesize SPL = _SPL;
 @synthesize isRunning;
 @synthesize freqWeighting = _freqWeighting;
-@synthesize timeWeighting = _timeWeighting;
 @synthesize isMeasuring;
 //@synthesize integrationTime = _integrationTime;
 @synthesize measurement = _measurement;
@@ -248,6 +261,7 @@ void processWithIOData(float * ioData,int frames, FilterStateBuffers BiQuadState
             state.freqWeightingFilterBuffers[i].gInputKeepBuffer = calloc(2,sizeof(float));
             state.freqWeightingFilterBuffers[i].gOutputKeepBuffer = calloc(2, sizeof(float));
         }
+        //TODO: init timeWeighting states
     }
     return self;
 }
@@ -298,6 +312,7 @@ void processWithIOData(float * ioData,int frames, FilterStateBuffers BiQuadState
         // Initialize format
         if (![self initializeFormat:&(state.mFormat)])
             NSLog(@"Error setting up format");
+        
         // Set up Audio Queue
         error = AudioQueueNewInput(&(state.mFormat), InputBufferHandler, &state, NULL, NULL, 0, &(state.mQueue));
         if (error) NSLog(@"Error creating Audio Queue");
@@ -424,6 +439,17 @@ void processWithIOData(float * ioData,int frames, FilterStateBuffers BiQuadState
 {
     int size;
     size = 50; //TODO: set to max size
+    // Open file
+    NSURL *url = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:YES error:nil];
+    NSString * fileName = [NSString stringWithFormat:@"grabacion_%f.wav",CFAbsoluteTimeGetCurrent()];
+    url = [url URLByAppendingPathComponent:fileName];
+    OSStatus error = AudioFileCreateWithURL(
+                                            (__bridge CFURLRef)(url),
+                                            kAudioFileWAVEType,
+                                            &state.mFormat,
+                                            kAudioFileFlags_EraseFile,
+                                            &state.audFile);
+    if (error) NSLog(@"Failed to create audio file");
     NSLog(@"size: %d",size);
     NSLog(@"starting measurement");
     // init measurement
@@ -439,9 +465,16 @@ void processWithIOData(float * ioData,int frames, FilterStateBuffers BiQuadState
 -(void)stopMeasurement
 {
     //TODO: apply calibration value  
-    CFShow(state.AW_AVGBuf);
-    self.measurement.data = (__bridge NSDictionary *)(state.AW_AVGBuf);
+    //CFShow(state.AW_AVGBuf);
+    // close audio file
+    OSStatus error = AudioFileClose(state.audFile);
+    if (error) NSLog(@"Failed to close audio file");
+    NSDictionary * dict = (__bridge NSDictionary *)(state.AW_AVGBuf);
+    NSLog(@"%@",dict);
+    self.measurement.data = dict;
     self.measurement.endDate = [NSDate date];
+    //NSLog(@"Measurement length: %f",self.measurement.measurementLength);
+    NSLog(@"equivalent level: %f for %f seconds",self.measurement.EquivalentLevelDB, self.measurement.measurementLength);
     state.isMeasuring = false;
     [self.delegate measurementWasStopped];
     //avgBufRelease(&state.avgBuffer);
@@ -464,6 +497,7 @@ void processWithIOData(float * ioData,int frames, FilterStateBuffers BiQuadState
 {
     [self stopInput];    
     float avgVal = calculateAverage(&state.calibrationBuffer);
+    avgBufRelease(&state.calibrationBuffer);
     //NSLog(@"avgVal: %f",avgVal);
     [[NSUserDefaults standardUserDefaults] setFloat:(-avgVal) forKey:@"CalibrationValuedB"];
     [self.calibrationDelegate calibrationWasFinished];

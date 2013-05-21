@@ -14,12 +14,53 @@
 @synthesize startDate = _startDate;
 @synthesize endDate = _endDate;
 @synthesize data = _data;
+@synthesize timeWeightedData = _timeWeightedData;
+@synthesize measurementLength = _measurementLength;
+@synthesize EquivalentLevelDB;
+@synthesize PeakValueDB;
 
 -(id)data
 {
     if (_data == nil)
         _data = [NSDictionary dictionary];
     return _data;
+}
+
+-(NSDictionary *)timeWeightedData
+{
+    if (_timeWeightedData == nil)
+        _timeWeightedData = [NSDictionary dictionary];
+    return _timeWeightedData;
+}
+
+-(NSTimeInterval)measurementLength
+{
+    NSTimeInterval interval = [self.endDate timeIntervalSinceDate:self.startDate];
+    return interval;
+}
+
+-(float)EquivalentLevelDB
+{
+    if (self.data.count > 0)
+    {
+        float result = 0;
+        float sum = 0;
+        NSEnumerator *en = [self.data objectEnumerator];
+        id val;
+        while (val = [en nextObject])
+        {
+            // val == NSCFNumber
+            NSNumber * num = (NSNumber *)val;
+            sum += num.floatValue;
+        }
+        NSLog(@"SUM: %f",sum);
+        sum = sum / self.measurementLength;
+        result = log10f(sqrtf(sum));
+        float calibrationValue = [[NSUserDefaults standardUserDefaults] floatForKey:@"CalibrationValuedB"];
+        return result + calibrationValue;
+    }
+    else
+        return 0;
 }
 
 -(NSString *)persistMeasurement
