@@ -40,13 +40,13 @@ typedef struct
     AverageBuffer calibrationBuffer;
     float calibrationValue;
     AudioFileID audFile;
+    CFDateFormatterRef formatter;
 } SonoModelState;
 
 @interface SonoModel ()
 {
     SonoModelState state;
     Float64 sampleRate;
-    
 }
 @property (nonatomic) SonoMeasurement * measurement;
 -(bool)initializeFormat:(AudioStreamBasicDescription *)format;
@@ -65,7 +65,8 @@ static void InputBufferHandler(	void *								inUserData,
 {
     SonoModelState * myState = (SonoModelState *)inUserData;
     OSStatus error;
-    CFDateRef absDate;
+    //CFDateRef absDate;
+    CFStringRef strKey;
     CFNumberRef valToWrite;
     if (myState->isRunning)
     {
@@ -100,17 +101,17 @@ static void InputBufferHandler(	void *								inUserData,
                                       &inNumPackets,
                                       inBuffer->mAudioData
                 ) == noErr)
-                myState->totalBytes += inNumPackets, NSLog(@"Writing to file!");
+                myState->totalBytes += inNumPackets;//, NSLog(@"Writing to file!");
             float timeWval = 0;
             float maxx = processSamples(samples,inBuffer->mAudioDataByteSize, myState, &timeWval);
             //NSLog(@"maxx: %f",maxx);
             //avgBufWrite(&myState->avgBuffer, &maxx);
-            absDate = CFDateCreate(kCFAllocatorDefault, CFAbsoluteTimeGetCurrent());
+            strKey = CFDateFormatterCreateStringWithAbsoluteTime(kCFAllocatorDefault, myState->formatter, CFAbsoluteTimeGetCurrent());
             valToWrite = CFNumberCreate(kCFAllocatorDefault, kCFNumberFloatType, &maxx);
             //CFShow(absDate);
             //CFShow(valToWrite);
-            CFDictionaryAddValue(myState->AW_AVGBuf, absDate, valToWrite);
-            CFRelease(absDate);
+            CFDictionaryAddValue(myState->AW_AVGBuf, strKey, valToWrite);
+            CFRelease(strKey);
             CFRelease(valToWrite);
         }
         
@@ -253,6 +254,7 @@ void processWithIOData(float * ioData,int frames, FilterStateBuffers BiQuadState
 {
     self = [super init];
     int i;
+    CFStringRef format;
     if (self) {
         // Initialize filter states
         for (i=0;i<SONO_FREQWEIGHTING_NUMBUFFERS;i++)
@@ -262,6 +264,10 @@ void processWithIOData(float * ioData,int frames, FilterStateBuffers BiQuadState
             state.freqWeightingFilterBuffers[i].gOutputKeepBuffer = calloc(2, sizeof(float));
         }
         //TODO: init timeWeighting states
+        state.formatter = CFDateFormatterCreate(kCFAllocatorDefault, NULL, kCFDateFormatterNoStyle, kCFDateFormatterNoStyle);
+        format = CFSTR("yyyyMMdd-A");
+        CFDateFormatterSetFormat(state.formatter, format);
+        CFRelease(format);
     }
     return self;
 }
@@ -276,6 +282,7 @@ void processWithIOData(float * ioData,int frames, FilterStateBuffers BiQuadState
         free(state.freqWeightingFilterBuffers[i].gInputKeepBuffer);
         free(state.freqWeightingFilterBuffers[i].gOutputKeepBuffer);
     }
+    CFRelease(state.formatter);
 }
 
 
@@ -472,10 +479,12 @@ void processWithIOData(float * ioData,int frames, FilterStateBuffers BiQuadState
     NSDictionary * dict = (__bridge NSDictionary *)(state.AW_AVGBuf);
     NSLog(@"%@",dict);
     self.measurement.data = dict;
+    //self.measurement.dataRef = CFDictionaryCreateCopy(kCFAllocatorDefault, state.AW_AVGBuf);
     self.measurement.endDate = [NSDate date];
     //NSLog(@"Measurement length: %f",self.measurement.measurementLength);
-    NSLog(@"equivalent level: %f for %f seconds",self.measurement.EquivalentLevelDB, self.measurement.measurementLength);
+    NSLog(@"equivalent level: %@ for %@ seconds",self.measurement.EquivalentLevelDB, self.measurement.measurementLength);
     state.isMeasuring = false;
+    [self.measurement persistMeasurement];
     [self.delegate measurementWasStopped];
     //avgBufRelease(&state.avgBuffer);
     CFRelease(state.AW_AVGBuf);

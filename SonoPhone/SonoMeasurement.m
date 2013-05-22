@@ -8,6 +8,11 @@
 
 #import "SonoMeasurement.h"
 
+@interface SonoMeasurement ()
+
+@property (nonatomic) NSDictionary * dictToPersist;
+@end
+
 @implementation SonoMeasurement
 
 @synthesize description = _description;
@@ -16,8 +21,9 @@
 @synthesize data = _data;
 @synthesize timeWeightedData = _timeWeightedData;
 @synthesize measurementLength = _measurementLength;
-@synthesize EquivalentLevelDB;
+@synthesize EquivalentLevelDB = _EquivalentLevelDB;
 @synthesize PeakValueDB;
+@synthesize dictToPersist = _dictToPersist;
 
 -(id)data
 {
@@ -33,13 +39,13 @@
     return _timeWeightedData;
 }
 
--(NSTimeInterval)measurementLength
+-(NSNumber *)measurementLength
 {
-    NSTimeInterval interval = [self.endDate timeIntervalSinceDate:self.startDate];
-    return interval;
+    _measurementLength = [NSNumber numberWithDouble:[self.endDate timeIntervalSinceDate:self.startDate]];
+    return _measurementLength;
 }
 
--(float)EquivalentLevelDB
+-(NSNumber *)EquivalentLevelDB
 {
     if (self.data.count > 0)
     {
@@ -54,26 +60,58 @@
             sum += num.floatValue;
         }
         NSLog(@"SUM: %f",sum);
-        sum = sum / self.measurementLength;
+        sum = sum / self.measurementLength.doubleValue;
         result = log10f(sqrtf(sum));
         float calibrationValue = [[NSUserDefaults standardUserDefaults] floatForKey:@"CalibrationValuedB"];
-        return result + calibrationValue;
+        _EquivalentLevelDB = [NSDecimalNumber numberWithFloat:(result + calibrationValue)];
     }
     else
-        return 0;
+        _EquivalentLevelDB = 0;
+    return _EquivalentLevelDB;
+}
+
+-(NSDictionary *)dictToPersist
+{
+    _dictToPersist = [NSDictionary dictionaryWithObjectsAndKeys:
+                      self.description,@"Description",
+                      self.startDate,@"startDate",
+                      self.endDate,@"endDate",
+                      self.measurementLength,@"measurementLength",
+                      self.EquivalentLevelDB,@"EquivalentValueDB",
+                      self.data,@"Data",
+                      nil];
+    return _dictToPersist;
 }
 
 -(NSString *)persistMeasurement
 {
+    NSError * creationError;
+    //CFURLRef fileURL;
+    //CFDataRef fileData;
+    BOOL success;
+    //long errorCode;
+    //CFShow(self.dataRef);
     //TODO: Directorio? Nombre de fich como parametro?
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyyMMdd-HHmmss"];
-    NSString * fileName = [@"Measurement" stringByAppendingString:[dateFormatter stringFromDate:self.startDate]];
-    NSString * recordFile = [NSTemporaryDirectory() stringByAppendingPathComponent:fileName];
-    NSData * serializedData = [NSPropertyListSerialization dataFromPropertyList:self.data format:NSPropertyListXMLFormat_v1_0 errorDescription:nil];
+    NSArray * paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString * fileName = [NSString stringWithFormat:@"measurement%@.xml", [dateFormatter stringFromDate:self.startDate]];
+    NSString * filePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:fileName];
+    NSLog(@"fileName: %@",filePath);
+    
+    // CoreFoundation method
+//    fileURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, (__bridge CFStringRef)(filePath), kCFURLPOSIXPathStyle, false);
+//    fileData = CFPropertyListCreateData(kCFAllocatorDefault, self.dataRef, kCFPropertyListXMLFormat_v1_0,0,NULL);
+//    success = CFURLWriteDataAndPropertiesToResource(fileURL, fileData, NULL, &errorCode);
+//    CFRelease(fileURL);
+//    CFRelease(fileData);
+    
+    // Cocoa method
+    NSData * serializedData = [NSPropertyListSerialization dataWithPropertyList:self.dictToPersist format:NSPropertyListXMLFormat_v1_0 options:NSPropertyListImmutable error:&creationError];
     //TODO: Handle errors
-    [serializedData writeToFile:recordFile atomically:YES];
-    return recordFile;
+    success = [serializedData writeToFile:filePath atomically:YES];
+    if (!success) NSLog(@"Error writing");
+    return filePath.lastPathComponent;
 }
 
 -(BOOL)loadMeasurementFromFile:(NSString *)filePath
