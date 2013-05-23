@@ -27,6 +27,7 @@
 		05F3260517282BF100B7D8B2 /* SonoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05F3260417282BF100B7D8B2 /* SonoViewController.m */; };
 		05F3260D17282C6600B7D8B2 /* SonoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 05F3260C17282C6600B7D8B2 /* SonoModel.m */; };
 		05F3261117282F6E00B7D8B2 /* AverageBuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = 05F3261017282F6E00B7D8B2 /* AverageBuffer.c */; };
+		05F81490174ECA8D00A3FDC5 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05F8148F174ECA8D00A3FDC5 /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +61,7 @@
 		05F3260C17282C6600B7D8B2 /* SonoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SonoModel.m; sourceTree = "<group>"; };
 		05F3260F17282F5300B7D8B2 /* AverageBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AverageBuffer.h; sourceTree = "<group>"; };
 		05F3261017282F6E00B7D8B2 /* AverageBuffer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = AverageBuffer.c; sourceTree = "<group>"; };
+		05F8148F174ECA8D00A3FDC5 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				05F81490174ECA8D00A3FDC5 /* CoreLocation.framework in Frameworks */,
 				05E0D97117347D2C00F4D334 /* Accelerate.framework in Frameworks */,
 				05EA670017322D66002F77F6 /* AudioToolbox.framework in Frameworks */,
 				05EA670117322D66002F77F6 /* CoreAudio.framework in Frameworks */,
@@ -99,6 +102,7 @@
 		05F325E717282BF100B7D8B2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				05F8148F174ECA8D00A3FDC5 /* CoreLocation.framework */,
 				05E0D97017347D2C00F4D334 /* Accelerate.framework */,
 				05EA66FE17322D66002F77F6 /* AudioToolbox.framework */,
 				05EA66FF17322D66002F77F6 /* CoreAudio.framework */,

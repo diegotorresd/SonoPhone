@@ -21,11 +21,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "SonoPhone/SonoMeasurement.m"
-         timestampString = "390876682.993171"
+         timestampString = "391042065.927368"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "50"
-         endingLineNumber = "50"
+         startingLineNumber = "77"
+         endingLineNumber = "77"
          landmarkName = "-EquivalentLevelDB"
          landmarkType = "5">
       </FileBreakpoint>
@@ -34,11 +34,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "SonoPhone/SonoMeasurement.m"
-         timestampString = "390876682.993171"
+         timestampString = "391042065.927368"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "43"
-         endingLineNumber = "43"
+         startingLineNumber = "57"
+         endingLineNumber = "57"
          landmarkName = "-measurementLength"
          landmarkType = "5">
       </FileBreakpoint>
@@ -60,11 +60,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "SonoPhone/SonoMeasurement.m"
-         timestampString = "390877434.477682"
+         timestampString = "391043329.529687"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "87"
-         endingLineNumber = "87"
+         startingLineNumber = "120"
+         endingLineNumber = "120"
          landmarkName = "-persistMeasurement"
          landmarkType = "5">
       </FileBreakpoint>
@@ -73,11 +73,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "SonoPhone/SonoMeasurement.m"
-         timestampString = "390876682.993171"
+         timestampString = "391042065.927368"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "66"
-         endingLineNumber = "66"
+         startingLineNumber = "92"
+         endingLineNumber = "92"
          landmarkName = "-EquivalentLevelDB"
          landmarkType = "5">
       </FileBreakpoint>
@@ -86,11 +86,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "SonoPhone/SonoMeasurement.m"
-         timestampString = "390877274.301626"
+         timestampString = "391043329.529687"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "74"
-         endingLineNumber = "74"
+         startingLineNumber = "103"
+         endingLineNumber = "103"
          landmarkName = "-dictToPersist"
          landmarkType = "5">
       </FileBreakpoint>

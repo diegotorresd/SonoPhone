@@ -7,10 +7,16 @@
 //
 
 #import "SonoMeasurement.h"
+#import <CoreLocation/CoreLocation.h>
 
-@interface SonoMeasurement ()
+#define Sono_Location_DesiredAccuracyMeters 100
+#define Sono_Location_DesiredFreshnessSeconds 10
+
+@interface SonoMeasurement () <CLLocationManagerDelegate>
 
 @property (nonatomic) NSDictionary * dictToPersist;
+@property (nonatomic) CLLocation * location;
+@property (nonatomic) CLLocationManager * locManager;
 @end
 
 @implementation SonoMeasurement
@@ -24,6 +30,14 @@
 @synthesize EquivalentLevelDB = _EquivalentLevelDB;
 @synthesize PeakValueDB;
 @synthesize dictToPersist = _dictToPersist;
+@synthesize locManager = _locManager;
+@synthesize location = _location;
+
+-(id)init
+{
+    [self.locManager setDelegate:self];
+    return self;
+}
 
 -(id)data
 {
@@ -45,6 +59,19 @@
     return _measurementLength;
 }
 
+-(CLLocationManager *)locManager
+{
+    if (![CLLocationManager locationServicesEnabled])
+        return nil;
+    if (_locManager == nil)
+    {
+        _locManager = [[CLLocationManager alloc] init];
+        _locManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
+        [_locManager startUpdatingLocation];
+    }
+    return _locManager;
+}
+
 -(NSNumber *)EquivalentLevelDB
 {
     if (self.data.count > 0)
@@ -55,11 +82,10 @@
         id val;
         while (val = [en nextObject])
         {
-            // val == NSCFNumber
             NSNumber * num = (NSNumber *)val;
             sum += num.floatValue;
         }
-        NSLog(@"SUM: %f",sum);
+        //NSLog(@"SUM: %f",sum);
         sum = sum / self.measurementLength.doubleValue;
         result = log10f(sqrtf(sum));
         float calibrationValue = [[NSUserDefaults standardUserDefaults] floatForKey:@"CalibrationValuedB"];
@@ -72,10 +98,17 @@
 
 -(NSDictionary *)dictToPersist
 {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyyMMdd-HHmmss"];
+    NSDictionary * locationDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                   [NSNumber numberWithDouble:self.location.coordinate.latitude], @"Latitude",
+                                   [NSNumber numberWithDouble:self.location.coordinate.longitude], @"Longitude",
+                                   [NSNumber numberWithDouble:self.location.altitude], @"Altitude", nil];
     _dictToPersist = [NSDictionary dictionaryWithObjectsAndKeys:
                       self.description,@"Description",
-                      self.startDate,@"startDate",
-                      self.endDate,@"endDate",
+                      [dateFormatter stringFromDate: self.startDate],@"startDate",
+                      locationDict,@"Location",
+                      [dateFormatter stringFromDate: self.endDate],@"endDate",
                       self.measurementLength,@"measurementLength",
                       self.EquivalentLevelDB,@"EquivalentValueDB",
                       self.data,@"Data",
@@ -108,9 +141,11 @@
     
     // Cocoa method
     NSData * serializedData = [NSPropertyListSerialization dataWithPropertyList:self.dictToPersist format:NSPropertyListXMLFormat_v1_0 options:NSPropertyListImmutable error:&creationError];
+    NSData * jsonData = [NSJSONSerialization dataWithJSONObject:self.dictToPersist options:NSJSONWritingPrettyPrinted error:&creationError];
     //TODO: Handle errors
     success = [serializedData writeToFile:filePath atomically:YES];
     if (!success) NSLog(@"Error writing");
+    success = [jsonData writeToFile:[filePath stringByAppendingPathExtension:@"json"] atomically:YES];
     return filePath.lastPathComponent;
 }
 
@@ -123,6 +158,22 @@
         self.data = [NSPropertyListSerialization propertyListFromData:pListData mutabilityOption:NSPropertyListMutableContainers format:NULL errorDescription:nil];
     }
     return result;
+}
+
+-(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
+{
+    CLLocation * firstLoc = [locations objectAtIndex:0];
+    NSLog(@"location: %@",firstLoc);
+    // check if location is recent and accurate
+    NSTimeInterval freshness = [[firstLoc timestamp] timeIntervalSinceNow];
+    CLLocationAccuracy accuracy = [firstLoc horizontalAccuracy];
+    if (freshness <= Sono_Location_DesiredFreshnessSeconds &&
+        accuracy <= Sono_Location_DesiredAccuracyMeters)
+    {
+        NSLog(@"chosen location: %@",firstLoc);
+        self.location = firstLoc;
+        [manager stopUpdatingLocation];
+    }
 }
 
 @end

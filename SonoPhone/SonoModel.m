@@ -482,7 +482,7 @@ void processWithIOData(float * ioData,int frames, FilterStateBuffers BiQuadState
     //self.measurement.dataRef = CFDictionaryCreateCopy(kCFAllocatorDefault, state.AW_AVGBuf);
     self.measurement.endDate = [NSDate date];
     //NSLog(@"Measurement length: %f",self.measurement.measurementLength);
-    NSLog(@"equivalent level: %@ for %@ seconds",self.measurement.EquivalentLevelDB, self.measurement.measurementLength);
+    NSLog(@"equivalent level: %@ for %f seconds",self.measurement.EquivalentLevelDB, self.measurement.measurementLength.floatValue);
     state.isMeasuring = false;
     [self.measurement persistMeasurement];
     [self.delegate measurementWasStopped];
