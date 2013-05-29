@@ -37,6 +37,7 @@ typedef struct
     FilterStateBuffers timeWeightingFilterBuffers;
     FilterStateBuffers freqWeightingFilterBuffers[SONO_FREQWEIGHTING_NUMBUFFERS];
     CFMutableDictionaryRef AW_AVGBuf;
+    CFMutableDictionaryRef timeW_Buf;
     AverageBuffer calibrationBuffer;
     float calibrationValue;
     AudioFileID audFile;
@@ -147,8 +148,12 @@ float processSamples(AudioSampleType * samples, UInt32 size, SonoModelState * s_
     // Square
     vsq(vector, 1, vector, 1, numElements);
     
-    //TODO: apply timeweighting and store
-      
+    // apply timeweighting and store
+    float * timeWvec = malloc(sizeof(vector));
+    memcpy(timeWvec, vector, numElements*sizeof(float));
+    processWithIOData(timeWvec, numElements, s_state->timeWeightingFilterBuffers);
+    //TODO:Store
+    
     // Integrate
     float result = 0;
     vDSP_sve(vector, 1, &result, numElements);
@@ -175,6 +180,16 @@ void processWithIOData(float * ioData,int frames, FilterStateBuffers BiQuadState
     memcpy(BiQuadState.gOutputKeepBuffer, &(outputBuffer[frames]), 2*sizeof(float));
     free(inputBuffer);
     free(outputBuffer);
+}
+
+void initTimeWeightingBuffers(SonoModelState * state)
+{
+    state->timeWeightingFilterBuffers.gCoefBuffer = malloc(5*sizeof(float));
+    state->timeWeightingFilterBuffers.gInputKeepBuffer = calloc(2,sizeof(float));
+    state->timeWeightingFilterBuffers.gOutputKeepBuffer = calloc(2, sizeof(float));
+    float timeConst = Sono_FastTimeConstant; // According to ISO 1996
+    float timeWCoefs[] = {1/timeConst, 0, 0, -expf(-1/timeConst), 0};
+    memcpy(state->timeWeightingFilterBuffers.gCoefBuffer, timeWCoefs, sizeof(timeWCoefs));
 }
 
 // properties
@@ -263,7 +278,7 @@ void processWithIOData(float * ioData,int frames, FilterStateBuffers BiQuadState
             state.freqWeightingFilterBuffers[i].gInputKeepBuffer = calloc(2,sizeof(float));
             state.freqWeightingFilterBuffers[i].gOutputKeepBuffer = calloc(2, sizeof(float));
         }
-        //TODO: init timeWeighting states
+        initTimeWeightingBuffers(&state);
         state.formatter = CFDateFormatterCreate(kCFAllocatorDefault, NULL, kCFDateFormatterNoStyle, kCFDateFormatterNoStyle);
         format = CFSTR("yyyyMMdd-A");
         CFDateFormatterSetFormat(state.formatter, format);
@@ -282,6 +297,9 @@ void processWithIOData(float * ioData,int frames, FilterStateBuffers BiQuadState
         free(state.freqWeightingFilterBuffers[i].gInputKeepBuffer);
         free(state.freqWeightingFilterBuffers[i].gOutputKeepBuffer);
     }
+    free(state.timeWeightingFilterBuffers.gCoefBuffer);
+    free(state.timeWeightingFilterBuffers.gInputKeepBuffer);
+    free(state.timeWeightingFilterBuffers.gOutputKeepBuffer);
     CFRelease(state.formatter);
 }
 
@@ -467,6 +485,7 @@ void processWithIOData(float * ioData,int frames, FilterStateBuffers BiQuadState
     // calculate size
     //avgBufInit(&state.avgBuffer, size);
     state.AW_AVGBuf = CFDictionaryCreateMutable(kCFAllocatorDefault, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+    state.timeW_Buf = CFDictionaryCreateMutable(kCFAllocatorDefault, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
 }
 
 -(void)stopMeasurement
@@ -488,6 +507,7 @@ void processWithIOData(float * ioData,int frames, FilterStateBuffers BiQuadState
     [self.delegate measurementWasStopped];
     //avgBufRelease(&state.avgBuffer);
     CFRelease(state.AW_AVGBuf);
+    CFRelease(state.timeW_Buf);
 }
 
 -(void)calibrate

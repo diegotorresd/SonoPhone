@@ -16,7 +16,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *StoreStopButton;
 @property (nonatomic) BOOL measuring;
 @property (nonatomic,strong) SonoModel * model;
-@property (weak) NSTimer *SPLtimer;
+@property NSTimer *SPLtimer;
 
 -(void)getSPLfromModel:(NSTimer *)timer;
 
